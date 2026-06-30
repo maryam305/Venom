@@ -7,12 +7,11 @@
 [![Backend FastAPI](https://img.shields.io/badge/Backend-FastAPI-009688)](#-technology-stack)
 [![Model Llama 3.1](https://img.shields.io/badge/LLM-Llama%203.1%20(Groq)-purple)](#-technology-stack)
 
-| ![](https://github.com/user-attachments/assets/25ceb34d-de06-44ca-98be-31bd80144036) | ![](https://github.com/user-attachments/assets/0f8438f5-979c-4c20-a872-99e375680439) | ![](https://github.com/user-attachments/assets/16c36c22-6db7-4af9-8ee4-2e41e7f28c31) |
-| :---: | :---: | :---: |
-| ![](https://github.com/user-attachments/assets/e232e0eb-2418-4ee2-a93c-1229249b1888) | ![](https://github.com/user-attachments/assets/68be789e-38fb-4ced-80d7-18586c9f199f) | ![](https://github.com/user-attachments/assets/ecbff9f7-531f-4760-8466-1fe74eaf870b) || :---: | :---: |
-| <img width="949" height="431" alt="Screenshot 2026-06-30 210811" src="https://github.com/user-attachments/assets/d156216d-d928-4687-bf7b-548771664dbc" />| <img width="949" height="431" alt="Screenshot 2026-06-30 210826" src="https://github.com/user-attachments/assets/e6515139-c263-46ef-9197-1cb566efc4c2" />| 
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/25ceb34d-de06-44ca-98be-31bd80144036" alt="VENOM.AI landing screen" width="850">
+</p>
 
-
+VENOM.AI greets the user with a clean, dark-mode command center summarizing the three intelligence pillars the platform fuses for every assessment: Computer Vision, Clinical Symptoms, and Geographic Intel.
 
 ---
 
@@ -39,13 +38,53 @@ Snakebite envenomation is a neglected tropical disease that causes over 100,000 
 3. **Geographic Variation** — Snake species and the antivenoms required vary drastically across regions. Giving the wrong antivenom wastes precious, expensive vials and can cause severe anaphylactic reactions.
 
 ## 🚀 Our Solution: VENOM.AI
-VENOM.AI is an intelligence platform designed to support frontline healthcare workers. It uses a **Late Fusion** multimodal AI architecture to combine three distinct signals:
+VENOM.AI is an intelligence platform designed to support frontline healthcare workers. It uses a **Late Fusion** multimodal AI architecture to combine three distinct signals: geography, clinical toxidrome, and computer vision. Here is what that workflow looks like in practice.
 
-1. **Geographic Prior** — Where did the bite occur? This immediately filters candidate species based on regional endemicity.
-2. **Clinical Toxidrome** — What symptoms is the patient exhibiting? Real-time mapping against WHO guidelines identifies the clinical syndrome (e.g., progressive neurotoxicity, coagulopathy).
-3. **Computer Vision** *(optional)* — If an image of the snake is available, an `EfficientNet-B0` neural network identifies the species by analyzing scale morphology and color patterns.
+### Step 1 — Geographic Prior
+The clinician starts by marking where the bite occurred on an interactive map. This immediately filters candidate species based on regional endemicity, before any symptoms are even entered.
 
-These signals feed into a **WHO-compliant Clinical Engine** powered by `Llama 3.1` (via Groq), which arbitrates conflicts (e.g., overriding vision if the species isn't geographically native) and produces a definitive **Intelligence Report** with recommended antivenoms, severity triage, and immediate clinical directives.
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/0f8438f5-979c-4c20-a872-99e375680439" alt="Interactive Africa map for region selection" width="850">
+</p>
+
+Selecting a region surfaces an immediate risk snapshot — bite frequency, severity index, dominant biome, and the most common venomous species reported in that area.
+
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/16c36c22-6db7-4af9-8ee4-2e41e7f28c31" alt="Sudan region risk profile and species probability" width="850">
+</p>
+
+### Step 2 — Clinical Toxidrome
+Next, the clinician toggles the symptoms the patient is presenting. Real-time mapping against WHO guidelines identifies the clinical syndrome — for example progressive neurotoxicity or coagulopathy — and updates severity as more symptoms are added.
+
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/e232e0eb-2418-4ee2-a93c-1229249b1888" alt="Dynamic symptom selection grid" width="850">
+</p>
+
+### Step 3 — Computer Vision *(optional)*
+If a photo of the snake is available, it can be dropped directly into the vision module. An `EfficientNet-B0` neural network analyzes scale morphology and color patterns across 6 medically significant African species.
+
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/68be789e-38fb-4ced-80d7-18586c9f199f" alt="Snake image upload and vision analysis" width="850">
+</p>
+
+The model returns a species prediction with a confidence score and risk classification — here correctly identifying a Black Mamba with very high confidence.
+
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/ecbff9f7-531f-4760-8466-1fe74eaf870b" alt="Species identified as Black Mamba" width="850">
+</p>
+
+### Step 4 — Fusion & Clinical Report
+All three signals — geography, symptoms, and vision — are passed to a **WHO-compliant Clinical Engine** powered by `Llama 3.1` (via Groq). The engine arbitrates conflicts, such as overriding a vision result if that species isn't geographically native, and produces a definitive diagnosis with severity triage and recommended antivenom.
+
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/d156216d-d928-4687-bf7b-548771664dbc" alt="Fusion Result report - Black Mamba prediction with severity index" width="850">
+</p>
+
+The final report also includes immediate clinical directives, hard contraindications, and an explainable AI breakdown showing exactly how much each signal — geography, symptoms, vision — contributed to the diagnosis.
+
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/e6515139-c263-46ef-9197-1cb566efc4c2" alt="Clinical directives, contraindications, and feature attribution" width="850">
+</p>
 
 ## ✨ Key Features
 - 🗺️ **Interactive Geographic Intelligence** — A custom-painted SVG map of Africa for rapid selection of the patient's region.
