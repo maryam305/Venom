@@ -162,3 +162,22 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 ```
+
+## 📧 Contact
+
+**Project Contributor**: Maryam Moustafa
+- Email: maryam23shabaan@gmail.com
+- [GitHub](https://github.com/maryam305)
+- [LinkedIn](https://www.linkedin.com/in/maryam-moustafa-653257378)
+- 
+**Project Contributor**: Aya Sayed
+- Email: aya.sayed14827@gmail.com
+- [GitHub](https://github.com/14930)
+- [LinkedIn](https://www.linkedin.com/in/aya-sayed-bb6a80397)
+  
+**Project Contributor**: Janna Waleed 
+- Email :janawaleed135@gmail.com
+- [GitHub](https://github.com/janawaleed135)
+- [LinkedIn]([https://linkedin.com/in/nn-anwar](https://www.linkedin.com/in/jana-waleed-007704381)
+
+
