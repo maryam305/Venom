@@ -1,12 +1,85 @@
 import { motion } from "framer-motion";
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import { Brain, Eye, MapPin, Stethoscope } from "lucide-react";
+import { runDiagnosis, type ClassifyResult, type DiagnoseResult } from "@/lib/api";
 
-export function StepFusion({ onDone }: { onDone: () => void }) {
+// Map UI symptom IDs to clinical presentation strings for the WHO engine
+const SYMPTOM_MAP: Record<string, string> = {
+  bleeding: "Spontaneous bleeding / Coagulopathy",
+  necrosis: "Tissue necrosis",
+  paralysis: "Flaccid muscle paralysis",
+  blurred: "Ptosis (drooping eyelids) / Blurred vision",
+  breathing: "Difficulty breathing / Respiratory distress",
+  vomiting: "Nausea and vomiting",
+  swelling: "Local swelling",
+  weakness: "Muscle weakness / Myotoxicity",
+  confusion: "Confusion / Altered mental status",
+};
+
+interface Props {
+  geography: string | null;
+  symptoms: string[];
+  visionResult: ClassifyResult | null;
+  onDiagnosisResult: (r: DiagnoseResult) => void;
+  onError: (e: string | null) => void;
+  onDone: () => void;
+}
+
+export function StepFusion({ geography, symptoms, visionResult, onDiagnosisResult, onError, onDone }: Props) {
+  const hasRun = useRef(false);
+
   useEffect(() => {
-    const t = setTimeout(onDone, 4200);
-    return () => clearTimeout(t);
-  }, [onDone]);
+    if (hasRun.current) return;
+    hasRun.current = true;
+
+    const runFusion = async () => {
+      try {
+        // Build the vision inference signal
+        let visionSignal = "None";
+        if (visionResult && visionResult.confidence > 0.5) {
+          visionSignal = `${visionResult.common_name} (${(visionResult.confidence * 100).toFixed(1)}% confidence)`;
+        }
+
+        // Map symptom IDs to clinical descriptions
+        const clinicalPresentation = symptoms.map(
+          (s) => SYMPTOM_MAP[s] ?? s
+        );
+
+        const result = await runDiagnosis({
+          geographic_context: geography ?? "Unknown",
+          clinical_presentation: clinicalPresentation,
+          vision_inference_signal: visionSignal,
+        });
+
+        onDiagnosisResult(result);
+        onError(result.error ?? null);
+      } catch (err: any) {
+        console.error("Fusion engine error:", err);
+        onError(err.message ?? "Fusion engine failed");
+        // Provide a fallback result so the results page still shows
+        onDiagnosisResult({
+          final_suspected_species: "Pending evaluation",
+          clinical_syndrome_identified: "Unable to determine — engine offline",
+          clinical_confidence_score: "0%",
+          recommended_antivenom: "Seek immediate clinical consultation",
+          immediate_clinical_directives: [
+            "Monitor vital signs manually",
+            "Keep patient calm and immobile",
+            "Immobilize bitten limb at heart level",
+            "Do not incise, suck, or apply tourniquet",
+          ],
+          contraindications: ["Do not intervene blindly. Wait for senior medical staff."],
+          error: err.message,
+        });
+      }
+
+      // Wait a minimum time for the animation then proceed
+      setTimeout(onDone, 3000);
+    };
+
+    // Start fusion after a brief visual delay
+    setTimeout(runFusion, 800);
+  }, []);
 
   return (
     <section className="mx-auto flex min-h-[100svh] max-w-7xl flex-col items-center justify-center px-6">
@@ -37,9 +110,9 @@ export function StepFusion({ onDone }: { onDone: () => void }) {
         </svg>
 
         {/* Nodes */}
-        <Node className="left-0 top-12" icon={MapPin} label="Geography" delay={0} />
-        <Node className="right-0 top-12" icon={Eye} label="Vision" delay={0.2} />
-        <Node className="left-1/2 bottom-0 -translate-x-1/2" icon={Stethoscope} label="Symptoms" delay={0.4} />
+        <Node className="left-0 top-12" icon={MapPin} label={geography ?? "Geography"} delay={0} />
+        <Node className="right-0 top-12" icon={Eye} label={visionResult?.common_name ?? "Vision"} delay={0.2} />
+        <Node className="left-1/2 bottom-0 -translate-x-1/2" icon={Stethoscope} label={`${symptoms.length} Symptoms`} delay={0.4} />
 
         {/* Core */}
         <motion.div
@@ -66,7 +139,11 @@ export function StepFusion({ onDone }: { onDone: () => void }) {
 
       <div className="mono mt-8 flex items-center gap-3 text-[10px] tracking-[0.3em] text-cyan-300/80">
         <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-cyan-300" />
-        REASONING · CROSS-REFERENCING REGIONAL BIOLOGY · TOXIDROME · MORPHOLOGY
+        REASONING · WHO SYNDROMIC ANALYSIS · LLAMA 3.1 · LATE FUSION
+      </div>
+
+      <div className="mono mt-3 text-[9px] tracking-[0.2em] text-muted-foreground">
+        Groq Inference · EfficientNet-B0 · WHO Guidelines for African Snakebite
       </div>
     </section>
   );
@@ -82,7 +159,7 @@ function Node({ className, icon: Icon, label, delay }: { className: string; icon
     >
       <div className="glass flex h-24 w-24 flex-col items-center justify-center rounded-2xl neon-border animate-float-slow">
         <Icon className="h-5 w-5 text-cyan-300" />
-        <div className="mono mt-2 text-[9px] tracking-[0.2em] text-muted-foreground">{label.toUpperCase()}</div>
+        <div className="mono mt-2 text-[9px] tracking-[0.2em] text-muted-foreground max-w-[80px] text-center truncate">{label.toUpperCase()}</div>
       </div>
     </motion.div>
   );

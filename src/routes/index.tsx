@@ -9,24 +9,32 @@ import { StepSymptoms } from "@/components/venom/StepSymptoms";
 import { StepVision } from "@/components/venom/StepVision";
 import { StepFusion } from "@/components/venom/StepFusion";
 import { StepResults } from "@/components/venom/StepResults";
+import type { ClassifyResult, DiagnoseResult } from "@/lib/api";
 
-export const Route = createFileRoute("/")({
-    head: () => ({
-        meta: [
-            { title: "VENOM.AI — Multimodal Snakebite Intelligence" },
-            { name: "description", content: "Hybrid multimodal AI decision support for African snakebite emergencies." },
-            { property: "og:title", content: "VENOM.AI — Multimodal Snakebite Intelligence" },
-            { property: "og:description", content: "Hybrid multimodal AI decision support for African snakebite emergencies." },
-        ],
-    }),
-    component: Index,
-});
+export const Route = createFileRoute("/")(
+    {
+        head: () => ({
+            meta: [
+                { title: "VENOM.AI — Multimodal Snakebite Intelligence" },
+                { name: "description", content: "Hybrid multimodal AI decision support for African snakebite emergencies." },
+                { property: "og:title", content: "VENOM.AI — Multimodal Snakebite Intelligence" },
+                { property: "og:description", content: "Hybrid multimodal AI decision support for African snakebite emergencies." },
+            ],
+        }),
+        component: Index,
+    });
 
 function Index() {
     const [step, setStep] = useState(0);
-    const [geography, setGeography] = useState < string | null > (null);
-    const [symptoms, setSymptoms] = useState < string[] > ([]);
-    const [image, setImage] = useState < string | null > (null);
+    const [geography, setGeography] = useState<string | null>(null);
+    const [symptoms, setSymptoms] = useState<string[]>([]);
+    const [image, setImage] = useState<string | null>(null);
+    const [imageFile, setImageFile] = useState<File | null>(null);
+
+    // Real model results
+    const [visionResult, setVisionResult] = useState<ClassifyResult | null>(null);
+    const [diagnosisResult, setDiagnosisResult] = useState<DiagnoseResult | null>(null);
+    const [fusionError, setFusionError] = useState<string | null>(null);
 
     const emergency = useMemo(
         () => symptoms.some((s) => ["paralysis", "breathing", "necrosis"].includes(s)),
@@ -38,6 +46,10 @@ function Index() {
         setGeography(null);
         setSymptoms([]);
         setImage(null);
+        setImageFile(null);
+        setVisionResult(null);
+        setDiagnosisResult(null);
+        setFusionError(null);
     };
 
     return (
@@ -62,14 +74,34 @@ function Index() {
                             <StepSymptoms value={symptoms} onChange={setSymptoms} onNext={() => setStep(3)} />
                         )}
                         {step === 3 && (
-                            <StepVision value={image} onChange={setImage} onNext={() => setStep(4)} />
+                            <StepVision
+                                value={image}
+                                onChange={setImage}
+                                imageFile={imageFile}
+                                onFileChange={setImageFile}
+                                visionResult={visionResult}
+                                onVisionResult={setVisionResult}
+                                onNext={() => setStep(4)}
+                            />
                         )}
-                        {step === 4 && <StepFusion onDone={() => setStep(5)} />}
+                        {step === 4 && (
+                            <StepFusion
+                                geography={geography}
+                                symptoms={symptoms}
+                                visionResult={visionResult}
+                                onDiagnosisResult={setDiagnosisResult}
+                                onError={setFusionError}
+                                onDone={() => setStep(5)}
+                            />
+                        )}
                         {step === 5 && (
                             <StepResults
                                 geography={geography}
                                 symptoms={symptoms}
                                 hasImage={!!image}
+                                visionResult={visionResult}
+                                diagnosisResult={diagnosisResult}
+                                fusionError={fusionError}
                                 onReset={reset}
                                 emergency={emergency}
                             />
