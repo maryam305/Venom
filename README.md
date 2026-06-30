@@ -1,9 +1,10 @@
 # VENOM.AI — Multimodal Snakebite Intelligence
 
-<div align="center">
-  <img src="public/favicon.ico" alt="VENOM.AI Logo" width="100"/>
-  <h3>Hybrid multimodal AI decision support for African snakebite emergencies</h3>
-</div>
+
+| <img width="946" height="437" alt="image" src="https://github.com/user-attachments/assets/25ceb34d-de06-44ca-98be-31bd80144036" /> | <img width="943" height="435" alt="Screenshot 2026-06-30 194405" src="https://github.com/user-attachments/assets/0f8438f5-979c-4c20-a872-99e375680439" /> |<img width="944" height="434" alt="Screenshot 2026-06-30 194420" src="https://github.com/user-attachments/assets/16c36c22-6db7-4af9-8ee4-2e41e7f28c31" />|
+| :---: | :---: | :---: |
+|<img width="948" height="443" alt="Screenshot 2026-06-30 194439" src="https://github.com/user-attachments/assets/e232e0eb-2418-4ee2-a93c-1229249b1888" />|<img width="946" height="442" alt="Screenshot 2026-06-30 194512" src="https://github.com/user-attachments/assets/68be789e-38fb-4ced-80d7-18586c9f199f" />|<img width="954" height="432" alt="Screenshot 2026-06-30 194759" src="https://github.com/user-attachments/assets/ecbff9f7-531f-4760-8466-1fe74eaf870b" /> |
+
 
 ---
 
