@@ -178,6 +178,6 @@ SOFTWARE.
 **Project Contributor**: Janna Waleed 
 - Email :janawaleed135@gmail.com
 - [GitHub](https://github.com/janawaleed135)
-- [LinkedIn]([https://linkedin.com/in/nn-anwar](https://www.linkedin.com/in/jana-waleed-007704381)
+- [LinkedIn](https://www.linkedin.com/in/jana-waleed-007704381)
 
 
